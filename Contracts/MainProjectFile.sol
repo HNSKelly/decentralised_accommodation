@@ -87,8 +87,31 @@ contract AccommodationSeeker {
 
 // SystemRegulator Contract
 contract SystemRegulator {
-    // Logic to add and verify a new Accommodation Provider
-    function addAccommodationProvider(address _provider) public {
-        // Implement verification and adding logic here
+    address public owner;
+    mapping(address => bool) public providersVerified;
+    mapping(address => uint256) public refundsPending;
+
+    event registeredProvider(address provider);
+    event registeredBooking(address indexed customer, uint256 accommodationId, uint256 amount);
+    event processedRefund(address indexed customer, uint256 amount);
+
+    modifier Owner(){
+        require(msg.sender == owner, "Only the owner can execute this action");
+        _;
     }
+
+    constructor(){
+        owner = msg.sender;
+    }
+    // Logic to add and verify a new Accommodation Provider
+    function addAccommodationProvider(address _provider) public Owner {
+        // Implement verification and adding logic here
+        providersVerified[_provider] = true;
+        emit registeredProvider(_provider);
+    }
+
+    function checkProviderVerification(address _provider) public view returns (bool){
+        return providersVerified[_provider];
+    }
+
 }
