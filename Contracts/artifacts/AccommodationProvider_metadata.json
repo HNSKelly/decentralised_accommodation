@@ -6,6 +6,86 @@
 	"output": {
 		"abi": [
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_regulatorAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					}
+				],
+				"name": "accommodationCreated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					}
+				],
+				"name": "accommodationRemoved",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "available",
+						"type": "bool"
+					}
+				],
+				"name": "accommodationUpdated",
+				"type": "event"
+			},
+			{
 				"inputs": [],
 				"name": "accomCount",
 				"outputs": [
@@ -95,6 +175,32 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "providerOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "regulatorAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -164,10 +270,10 @@
 	},
 	"sources": {
 		"Contracts/MainProjectFile.sol": {
-			"keccak256": "0xcb96a2388a254161b9bdd65c6694319a55a1f5887ae04647bc6f40c5fdc88988",
+			"keccak256": "0xf78c7f5d13adc66fbf8dfd34175d8cac849127ce5e54c3d621047722da705e5f",
 			"urls": [
-				"bzz-raw://7a85900baa140ec805c19a8e6cb281ca860d64ad9872eed06ed04ea560c673c0",
-				"dweb:/ipfs/QmSh8iB7YKTqgUFQw3LrrnZYSL82Mk373vGZjC6Kq7PQh6"
+				"bzz-raw://48f2090502fe98384044084a54acc44ae6cc725496600942d9c57d50390d5956",
+				"dweb:/ipfs/QmS5G6nM1n4V6F2otvfQryJNMT3nf4CZKTFWG7yxswFHh4"
 			]
 		}
 	},

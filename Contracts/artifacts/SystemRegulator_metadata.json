@@ -64,7 +64,20 @@
 						"type": "address"
 					}
 				],
-				"name": "registeredProvider",
+				"name": "removedProvider",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "provider",
+						"type": "address"
+					}
+				],
+				"name": "verifiedProvider",
 				"type": "event"
 			},
 			{
@@ -101,12 +114,61 @@
 			},
 			{
 				"inputs": [],
+				"name": "getVerifiedProviderCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_customer",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_accommodationId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "handleRefund",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "owner",
 				"outputs": [
 					{
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "providerCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -149,6 +211,42 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_customer",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_accommodationId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "registerBooking",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_provider",
+						"type": "address"
+					}
+				],
+				"name": "removeAccommodationProvider",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -179,10 +277,10 @@
 	},
 	"sources": {
 		"Contracts/MainProjectFile.sol": {
-			"keccak256": "0xcb96a2388a254161b9bdd65c6694319a55a1f5887ae04647bc6f40c5fdc88988",
+			"keccak256": "0xf78c7f5d13adc66fbf8dfd34175d8cac849127ce5e54c3d621047722da705e5f",
 			"urls": [
-				"bzz-raw://7a85900baa140ec805c19a8e6cb281ca860d64ad9872eed06ed04ea560c673c0",
-				"dweb:/ipfs/QmSh8iB7YKTqgUFQw3LrrnZYSL82Mk373vGZjC6Kq7PQh6"
+				"bzz-raw://48f2090502fe98384044084a54acc44ae6cc725496600942d9c57d50390d5956",
+				"dweb:/ipfs/QmS5G6nM1n4V6F2otvfQryJNMT3nf4CZKTFWG7yxswFHh4"
 			]
 		}
 	},

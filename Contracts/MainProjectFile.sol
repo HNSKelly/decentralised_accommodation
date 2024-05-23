@@ -11,26 +11,52 @@ contract AccommodationProvider {
 
     mapping(uint256 => Accommodation) public accommodations;
     uint256 public accomCount;
+    address public regulatorAddress;
+    address public providerOwner;
 
-    function createAccommodation(string memory _location, uint256 _price) public {
+    event accommodationCreated(uint256 id, string location, uint256 price);
+    event accommodationUpdated(uint256 id, string location, uint256 price, bool available);
+    event accommodationRemoved(uint256 id);
+
+    modifier onlyProviderOwner() {
+        require(msg.sender == providerOwner, "Only the provider owner can execute this action");
+        _;
+    }
+
+    
+    modifier onlyRegisteredProvider() {
+        SystemRegulator regulator = SystemRegulator(regulatorAddress);
+        require(regulator.checkProviderVerification(providerOwner), "Provider is not registered with the regulator");
+        _;
+    }
+
+    constructor(address _regulatorAddress) {
+        regulatorAddress = _regulatorAddress;
+        providerOwner = msg.sender;
+    }
+
+
+    function createAccommodation(string memory _location, uint256 _price) public onlyProviderOwner onlyRegisteredProvider {
         accommodations[accomCount] = Accommodation(_location, _price, true);
+        emit accommodationCreated(accomCount, _location, _price);
         accomCount++;
     }
 
-    function updateAccommodationDetails(uint256 _id, string memory _location, uint256 _price, bool _available) public {
+    function updateAccommodationDetails(uint256 _id, string memory _location, uint256 _price, bool _available) public onlyProviderOwner onlyRegisteredProvider {
         require(_id < accomCount, "Accommodation ID does not exist.");
         accommodations[_id].location = _location;
         accommodations[_id].price = _price;
         accommodations[_id].available = _available;
+        emit accommodationUpdated(_id, _location, _price, _available);
     }
 
-    function removeListing(uint256 _id) public {
+    function removeListing(uint256 _id) public onlyProviderOwner onlyRegisteredProvider {
         require(_id < accomCount, "Non valid accomodation ID");
         if (_id < accomCount - 1) {
             accommodations[_id] = accommodations[accomCount - 1]; // this Moves the last item to the deleted spot
         }
         delete accommodations[accomCount - 1]; // Remove the last item
-        
+        emit accommodationRemoved(_id);
         accomCount--; // Decrements the ammount
     }
 
@@ -88,10 +114,12 @@ contract AccommodationSeeker {
 // SystemRegulator Contract
 contract SystemRegulator {
     address public owner;
+    uint256 public providerCount;
     mapping(address => bool) public providersVerified;
     mapping(address => uint256) public refundsPending;
 
-    event registeredProvider(address provider);
+    event verifiedProvider(address provider);
+    event removedProvider(address provider);
     event registeredBooking(address indexed customer, uint256 accommodationId, uint256 amount);
     event processedRefund(address indexed customer, uint256 amount);
 
@@ -106,12 +134,41 @@ contract SystemRegulator {
     // Logic to add and verify a new Accommodation Provider
     function addAccommodationProvider(address _provider) public Owner {
         // Implement verification and adding logic here
+        require(!providersVerified[_provider], "Provider is already verified");
         providersVerified[_provider] = true;
-        emit registeredProvider(_provider);
+        providerCount++;
+        emit verifiedProvider(_provider);
+    }
+
+    function removeAccommodationProvider(address _provider) public Owner {
+        require(providersVerified[_provider], "Provider is not verified");
+        providersVerified[_provider] = false;
+        providerCount--;
+        emit removedProvider(_provider);
     }
 
     function checkProviderVerification(address _provider) public view returns (bool){
         return providersVerified[_provider];
+    }
+
+    function getVerifiedProviderCount() public view returns (uint256) {
+        return providerCount;
+    }
+
+    function registerBooking(address _customer, uint256 _accommodationId, uint256 _amount) public {
+        require(providersVerified[msg.sender], "Caller is not a verified provider");
+        refundsPending[_customer] += _amount;
+        emit registeredBooking(_customer, _accommodationId, _amount);
+    }
+
+    function handleRefund(address _customer, uint256 _accommodationId, uint256 _amount) public {
+        require(providersVerified[msg.sender], "Caller is not a verified provider");
+
+        require(refundsPending[_customer] >= _amount, "Insufficient funds for refund");
+
+        payable(_customer).transfer(_amount);
+        refundsPending[_customer] -= _amount;
+        emit processedRefund(_customer, _amount);
     }
 
 }
