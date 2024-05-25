@@ -154,10 +154,10 @@
 	},
 	"sources": {
 		"Contracts/MainProjectFile.sol": {
-			"keccak256": "0xf78c7f5d13adc66fbf8dfd34175d8cac849127ce5e54c3d621047722da705e5f",
+			"keccak256": "0xdb5af1eccd0bfa0ae5784cc70cb79fc0e7499d00fe57e17dc526853167922b65",
 			"urls": [
-				"bzz-raw://48f2090502fe98384044084a54acc44ae6cc725496600942d9c57d50390d5956",
-				"dweb:/ipfs/QmS5G6nM1n4V6F2otvfQryJNMT3nf4CZKTFWG7yxswFHh4"
+				"bzz-raw://9623d800cd525cc41cebb8597b293f7abcc262f9a9cd21347052c6074d1ccc14",
+				"dweb:/ipfs/Qmf4KMwjgvL5KnKYwXGECBZDwKNg8ZVX2nS5GfJLY8kGnR"
 			]
 		}
 	},
