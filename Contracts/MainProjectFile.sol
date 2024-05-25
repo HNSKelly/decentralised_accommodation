@@ -40,13 +40,13 @@ contract AccommodationProvider {
         validAddresses = _validAddresses;
     }
 
-    function createAccommodation(string memory _location, uint256 _price) public onlyProviderOwner onlyValidAddress {
+    function createAccommodation(string memory _location, uint256 _price) public onlyValidAddress {
         accommodations[accomCount] = Accommodation(_location, _price, true);
         emit AccommodationCreated(accomCount, _location, _price);
         accomCount++;
     }
 
-    function updateAccommodationDetails(uint256 _id, string memory _location, uint256 _price, bool _available) public onlyProviderOwner onlyValidAddress {
+    function updateAccommodationDetails(uint256 _id, string memory _location, uint256 _price, bool _available) public onlyValidAddress {
         require(_id < accomCount, "Accommodation ID does not exist.");
         accommodations[_id].location = _location;
         accommodations[_id].price = _price;
@@ -54,7 +54,7 @@ contract AccommodationProvider {
         emit AccommodationUpdated(_id, _location, _price, _available);
     }
 
-    function removeListing(uint256 _id) public onlyProviderOwner onlyValidAddress {
+    function removeListing(uint256 _id) public onlyValidAddress {
         require(_id < accomCount, "Non valid accommodation ID");
         if (_id < accomCount - 1) {
             accommodations[_id] = accommodations[accomCount - 1];
