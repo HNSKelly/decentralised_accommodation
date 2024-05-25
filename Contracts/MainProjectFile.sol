@@ -76,6 +76,13 @@ contract AccommodationProvider {
 
  
 // AccommodationSeeker Contract
+pragma solidity ^0.8.0;
+
+interface IAccommodationProvider {
+    function getAccommodationDetails(uint256 _id) external view returns (string memory, uint256, bool);
+    function updateAccommodationDetails(uint256 _id, string memory _location, uint256 _price, bool _available) external;
+}
+
 contract AccommodationSeeker {
     struct Booking {
         uint256 accommodationId;
@@ -97,7 +104,7 @@ contract AccommodationSeeker {
     }
 
     function bookAccommodation(uint256 _id) public payable {
-        AccommodationProvider provider = AccommodationProvider(providerAddress);
+        IAccommodationProvider provider = IAccommodationProvider(providerAddress);
         (string memory location, uint256 price, bool available) = provider.getAccommodationDetails(_id);
 
         require(available, "Accommodation is not available");
@@ -107,7 +114,7 @@ contract AccommodationSeeker {
     }
 
     function cancelAccommodation(uint256 _index) public {
-        AccommodationProvider provider = AccommodationProvider(providerAddress);
+        IAccommodationProvider provider = IAccommodationProvider(providerAddress);
         Booking storage booking = bookings[msg.sender][_index];
         
         require(booking.confirmed, "Booking not confirmed or already cancelled");
@@ -115,11 +122,17 @@ contract AccommodationSeeker {
         provider.updateAccommodationDetails(booking.accommodationId, "", booking.price, true);
         delete bookings[msg.sender][_index];
     }
+
+    function getAccommodationDetails(uint256 _id) public view returns (string memory location, uint256 price, bool available) {
+        IAccommodationProvider provider = IAccommodationProvider(providerAddress);
+        return provider.getAccommodationDetails(_id);
+    }
 }
 
 
 
 
+pragma solidity ^0.8.0;
 
 contract SystemRegulator {
     address public owner;
@@ -156,4 +169,3 @@ contract SystemRegulator {
         return address(newProvider);
     }
 }
-
