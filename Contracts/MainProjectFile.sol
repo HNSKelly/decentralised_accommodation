@@ -29,6 +29,7 @@ contract AccommodationProvider {
             if (validAddresses[i] == msg.sender) {
                 isValid = true;
                 break;
+
             }
         }
         require(isValid, "Address is not valid for this contract");
